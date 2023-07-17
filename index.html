@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Choix de clan, famille et &#233;cole</title>
+    <link id="myCss" rel="stylesheet" type="text/css" >
+</head>
+<body>
+	<div class="left">
+		<h1>Choix de clan, famille et &#233;cole</h1>
+		<div>
+			<label for="clan">Choisissez un clan:</label>
+			<select id="clan">
+				<option value="">--Choisissez un clan--</option>
+			</select>
+		</div>
+		<div id="clan-details"></div>
+		<div>
+			<label for="famille">Choisissez une famille:</label>
+			<select id="famille">
+				<option value="">--Choisissez une famille--</option>
+			</select>
+		</div>
+		<div id="family-details"></div>
+		<div>
+			<label for="anneau">Choisissez un anneau:</label>
+			<select id="anneau">
+				<option value="">--Choisissez un anneau--</option>
+			</select>
+		</div>
+		<div>
+			<label for="allow-other-clan">Autoriser une &#233;cole d'un autre clan:</label>
+			<input type="checkbox" id="allow-other-clan">
+		</div>
+		<div>
+			<label for="ecole">Choisissez une &#233;cole:</label>
+			<select id="ecole">
+				<option value="">--Choisissez une &#233;cole--</option>
+			</select>
+		</div>
+		<div id="school-details"></div>
+	</div>
+	<div class="right">
+		<h1>R&#233;sum&#233; des choix</h1>
+		<p id="chosen-clan">Clan choisi : </p>
+		<p id="chosen-family">Famille choisie : </p>
+		<p id="chosen-school">&#201;cole choisie : </p>
+		<h2>Cons&#233;quences</h2>
+		<p id="ring-values">Valeurs des anneaux : </p>
+		<p >Comp&eacute;tences (+1) : <ul id="starting-skills"></ul></p>
+		<p id="status">Statut : </p>
+		<p id="glory">Gloire : </p>
+		<p id="honor">Honneur : </p>
+		<p>Richesse : <span  id="wealth"></span></p>
+		<p >Techniques de d&eacute;part : <ul id="starting-techniques"></ul></p>
+		
+		<p style="color:red">TODO : ajout des choix 4 (un anneau) + 7/8 (gloire/honneur et/ou compétences en+) .</p>
+	</div>
+    <script id="myScript"></script>
+    <script type="text/javascript">
+	   document.getElementById('myCss').setAttribute('href', 'style.css?v=' + Date.now());
+	   document.getElementById('myScript').src = '/script.js?v=' + Date.now();
+   </script>
+</script>
+</body>
+</html>

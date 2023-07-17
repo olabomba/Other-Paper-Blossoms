@@ -14,7 +14,7 @@
 		<div>
 			<h1>L5R - character generator</h1>
 			<h2>1 - Choix du Clan</h2>
-			<div>
+			<div class="section">
 				<label for="clan">Choisissez un clan:</label>
 				<select id="clan">
 					<option value="">--Choisissez un clan--</option>
@@ -23,14 +23,14 @@
 			<div id="clan-details" class="details"></div>
 			
 			<h2>2 - Choix de la famille</h2>
-			<div>
+			<div class="section">
 				<label for="famille">Choisissez une famille:</label>
 				<select id="famille">
 					<option value="">--Choisissez une famille--</option>
 				</select>
 			</div>
 			<div id="family-details" class="details"></div>
-			<div>
+			<div class="section">
 				<label for="anneau">Choisissez un anneau:</label>
 				<select id="anneau">
 					<option value="">--Choisissez un anneau--</option>
@@ -38,11 +38,11 @@
 			</div>
 			
 			<h2>3 - Choix de l'&#233;cole</h2>
-			<div>
+			<div class="section">
 				<label for="allow-other-clan">Autoriser une &#233;cole d'un autre clan:</label>
 				<input type="checkbox" id="allow-other-clan">
 			</div>
-			<div>
+			<div class="section">
 				<label for="ecole">Choisissez une &#233;cole:</label>
 				<select id="ecole">
 					<option value="">--Choisissez une &#233;cole--</option>
@@ -51,7 +51,7 @@
 			<div id="school-details" class="details"></div>
 			
 			<h2>4 - Choix du comportement</h2>
-			<div>
+			<div class="section">
 				<label for="behavior">Choisissez un comportement:</label>
 				<select id="behavior">
 					<option value="">--Choisissez un comportement--</option>
@@ -60,14 +60,14 @@
 			<div id="behavior-details" class="details"></div>
 			
 			<h2>..7 - Relation avec le clan ?</h2>
-			<div>
+			<div class="section">
 					<label for="rel_positive"><input type="radio" name="relation" id="rel_positive" value="positive">Positive</label>
 					<label for="rel_negative"><input type="radio" name="relation" id="rel_negative" value="negative">Conflictuelle</label>
 			</div>
 			<div id="relation-details" class="details"></div>
 			
 			<h2>8 - ..et avec le bushido ?</h2>
-			<div>
+			<div class="section">
 					<label for="bushido_positive"><input type="radio" name="bushido" id="bushido_positive" value="positive">Positive</label>
 					<label for="bushido_negative"><input type="radio" name="bushido" id="bushido_negative" value="negative">Conflictuelle</label>
 			</div>
@@ -77,10 +77,10 @@
 	<div class="right">
 		<div>
 			<h1>R&#233;sum&#233;</h1>
+			<p><ul id="ring-values"></ul></p>
 			<p>Clan : <span  id="chosen-clan"></span></p>
 			<p>Famille : <span  id="chosen-family"></span></p>
 			<p>&#201;cole : <span  id="chosen-school"></span></p>
-			<p>Valeurs des anneaux : <ul id="ring-values"></ul></p>
 			<p>Statut : <span  id="status"></span></p>
 			<p>Gloire : <span  id="glory"></span></p>
 			<p>Honneur : <span  id="honor"></span></p>

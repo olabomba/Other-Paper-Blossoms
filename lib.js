@@ -441,10 +441,20 @@ function parseObject(obj) {
 
 function updateRingValues() {
     let text = '';
-    const allRings = ["Air", "Earth", "Water", "Void", "Fire"];
+    
+    text += '<div class="ringsContainer">';
+    text += '<img src="img/colorRings.png" alt="color rings" />';
+    text += '<div class="circle" style="top: 63px; left: 181px;">' + (1 + countOccurrences(rings, 'Air')) + '</div>';
+    text += '<div class="circle" style="top: 63px; left: 104px;">' + (1 + countOccurrences(rings, 'Earth')) + '</div>';
+    text += '<div class="circle" style="top: 145px; left: 75px;">' + (1 + countOccurrences(rings, 'Water')) + '</div>';
+    text += '<div class="circle" style="top: 142px; left: 211px;">' + (1 + countOccurrences(rings, 'Fire')) + '</div>';
+    text += '<div class="circle" style="top: 204px; left: 142px;">' + (1 + countOccurrences(rings, 'Void')) + '</div>';
+    text += '</div>';
+    
+    /*const allRings = ["Air", "Earth", "Water", "Void", "Fire"];
     for (let ring in allRings) {
         text += '<li><b>' + allRings[ring] + '</b>: ' + (1 + countOccurrences(rings, allRings[ring])) + '</li>';
-    }
+    } */
     document.getElementById('ring-values').innerHTML = text;
 }
 

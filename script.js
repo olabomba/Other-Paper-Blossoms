@@ -201,13 +201,7 @@ function deselectOptionByValue(selectElement, value) {
 
 function limitSelection(event, size) {
 	const selectedOptions = event.target.selectedOptions;
-	Array.from(selectedOptions).forEach(function(option) {
-		if (listValues(skills, 'chosen').includes(option.value)) {
-			alert("Vous avez deja cette option");
-			deselectOptionByValue(event.target, option.value);
-		}
-	});
-    if (selectedOptions.length > size) {
+	if (selectedOptions.length > size) {
         alert("Vous ne pouvez pas choisir plus de " + size + " options");
         selectedOptions[selectedOptions.length - 1].selected = false;
     }
@@ -282,7 +276,29 @@ function updateChosenSkills() {
 }
 
 function displayChosenSkills() {
-    document.getElementById('starting-skills').innerHTML = listValues(skills);
+	const listHTML = listValues(skills);
+	const liRegex = /<li>(.*?)<\/li>/g;
+	let matches;
+	let occurrences = {};
+
+	// Compte le nombre d'occurrences de chaque élément
+	while ((matches = liRegex.exec(listHTML)) !== null) {
+		const itemText = matches[1];
+		if (occurrences[itemText]) {
+		  occurrences[itemText]++;
+		} else {
+		  occurrences[itemText] = 1;
+		}
+	}
+
+	// Dédoublonne les éléments et ajoute les chiffres d'occurrence
+	let values = '';
+	Object.keys(occurrences).forEach(function(itemText) {
+		var count = occurrences[itemText];
+		values += '<li>' + itemText + ' (+' + count + ')</li>';
+	});
+
+    document.getElementById('starting-skills').innerHTML = values;
 }
 
 function updateChosenTechniques() {

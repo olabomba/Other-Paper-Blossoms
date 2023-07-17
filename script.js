@@ -48,14 +48,17 @@ function countOccurrences(obj, value) {
   return count;
 }
 
-function listValues(obj) {
+function listValues(obj, excludeKey) {
 	let text = '';
-    Object.values(obj).forEach(function(array) {
-	
-	  // Parcours chaque élément du tableau
-	  array.forEach(function(value) {
-		text += '<li>' + value + '</li>';
-	  });
+    Object.keys(obj).forEach(function(key) {
+		if (key === excludeKey) {
+			return;
+		}
+		const array = obj[key];
+		  // Parcours chaque élément du tableau
+		  array.forEach(function(value) {
+			text += '<li>' + value + '</li>';
+		  });
 	});
 	return text;
 }
@@ -84,7 +87,7 @@ function populateClans() {
 		skills['clan'] = [clan.skill_increase];
     
         displayChosenSkills();
-        updateSummary('chosen-clan', 'Clan choisi : ' + this.options[this.selectedIndex].text);
+        updateSummary('chosen-clan', this.options[this.selectedIndex].text);
     };
 }
 
@@ -101,7 +104,7 @@ function displayClanDetails(clanIndex) {
     rings['clan'] = clan.ring_increase;
     status['clan'] = clan.status;
     updateRingValues();
-    updateStatus();
+    updateSummary('status', addValues(status));
 }
 
 function populateFamilies(clanIndex) {
@@ -130,9 +133,10 @@ function populateFamilies(clanIndex) {
         const wealth = clansData[clanIndex].families[this.value].wealth;
     
         updateSummary('wealth', wealth + ' kokus');
-        updateSummary('chosen-family', 'Famille choisie : ' + this.options[this.selectedIndex].text);
+        updateSummary('chosen-family', this.options[this.selectedIndex].text);
     };
 }
+
 
 function displayFamilyDetails(clanIndex, familyIndex) {
     const family = clansData[clanIndex].families[familyIndex];
@@ -140,10 +144,10 @@ function displayFamilyDetails(clanIndex, familyIndex) {
     details.innerHTML = '<p>Reference: ' + parseObject(family.reference) + '</p>' +
                         '<p>Skill Increase: ' + family.skill_increase + '</p>' +
                         '<p>Glory: ' + family.glory + '</p>' +
-                        '<p>Wealth: ' + family.wealth + ' koku</p>';
+                        '<p>Wealth: ' + family.wealth + ' kokus</p>';
 
     glory['clan'] = family.glory;
-    updateGlory();
+    updateSummary('glory', addValues(glory));
 }
 
 function populateRings(clanIndex, familyIndex) {
@@ -181,14 +185,31 @@ function populateSchools(allowOtherClan) {
 
     schoolSelect.onchange = function() {
         displaySchoolDetails(this.value);
-        updateSummary('chosen-school', '&#201;cole choisie : ' + this.options[this.selectedIndex].text);
+        updateSummary('chosen-school', this.options[this.selectedIndex].text);
     };
 }
 
+function deselectOptionByValue(selectElement, value) {
+  var options = selectElement.options;
+  for (var i = 0; i < options.length; i++) {
+    if (options[i].value === value) {
+      options[i].selected = false;
+      break;
+    }
+  }
+}
+
 function limitSelection(event, size) {
-    if (event.target.selectedOptions.length > size) {
+	const selectedOptions = event.target.selectedOptions;
+	Array.from(selectedOptions).forEach(function(option) {
+		if (listValues(skills, 'chosen').includes(option.value)) {
+			alert("Vous avez deja cette option");
+			deselectOptionByValue(event.target, option.value);
+		}
+	});
+    if (selectedOptions.length > size) {
         alert("Vous ne pouvez pas choisir plus de " + size + " options");
-        event.target.selectedOptions[event.target.selectedOptions.length - 1].selected = false;
+        selectedOptions[selectedOptions.length - 1].selected = false;
     }
 }
 
@@ -197,11 +218,10 @@ function displaySchoolDetails(schoolIndex) {
     const details = document.getElementById('school-details');
 
     // Cr&eacute;er la liste d'&eacute;quipement de d&eacute;part
-    let startingOutfitList = '<ul>';
+    let startingOutfitList = '';
     school.starting_outfit.forEach(item => {
         startingOutfitList += '<li>' + parseObject(item) + '</li>';
     });
-    startingOutfitList += '</ul>';
 
     // Cr&eacute;er la liste des comp&eacute;tences de d&eacute;part
     
@@ -229,7 +249,6 @@ function displaySchoolDetails(schoolIndex) {
                         '<p>Honneur: ' + school.honor + '</p>' +
                         '<p>Techniques disponibles: ' + school.techniques_available + '</p>' +
                         '<p>Capacit&eacute; de l\'&eacute;cole: ' + school.school_ability + '</p>' +
-                        '<p>&#201;quipement de d&#233;part: ' + startingOutfitList + '</p>' +
                         '<p>Nombre de comp&#233;tences a&#768; choisir : ' + school.starting_skills.size + '</p>' +
                         '<p>Comp&#233;tences de d&#233;part: ' + startingSkillsList + '</p>' +
                         '<p>Techniques de d&#233;part: ' + startingTechniquesList + '</p>';
@@ -241,7 +260,8 @@ function displaySchoolDetails(schoolIndex) {
 
     // Mettre à jour l'honneur
     honor['school'] = school.honor;
-    updateHonor();
+    updateSummary('honor', addValues(honor));
+    updateSummary('starting-outfit', startingOutfitList);
 }
 
 function updateChosenSkills() {
@@ -289,30 +309,14 @@ function parseObject(obj) {
 }
 
 function updateRingValues() {
-    let text = 'Valeurs des anneaux : <ul>';
+    let text = '';
     const allRings = ["Air", "Earth", "Water", "Void", "Fire"];
     for (let ring in allRings) {
         text += '<li><b>' + allRings[ring] + '</b>: ' + (1 + countOccurrences(rings, allRings[ring])) + '</li>';
     }
-    text += '</ul>';
     document.getElementById('ring-values').innerHTML = text;
 }
 
 function updateSummary(id, text) {
     document.getElementById(id).innerHTML = text;
-}
-
-function updateStatus() {
-    let text = 'Statut : ' + addValues(status);
-    document.getElementById('status').innerHTML = text;
-}
-
-function updateGlory() {
-    let text = 'Gloire : ' + addValues(glory);
-    document.getElementById('glory').innerHTML = text;
-}
-
-function updateHonor() {
-    let text = 'Honneur : ' + addValues(honor);
-    document.getElementById('honor').innerHTML = text;
 }

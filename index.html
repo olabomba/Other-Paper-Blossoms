@@ -5,8 +5,10 @@
     <link id="myCss" rel="stylesheet" type="text/css" >
 </head>
 <body>
+		
 	<div class="left">
-		<h1>Choix de clan, famille et &#233;cole</h1>
+		<h1>L5R - character generator</h1>
+		<h2>1 - Choix du Clan</h2>
 		<div>
 			<label for="clan">Choisissez un clan:</label>
 			<select id="clan">
@@ -14,6 +16,8 @@
 			</select>
 		</div>
 		<div id="clan-details"></div>
+		
+		<h2>2 - Choix de la famille</h2>
 		<div>
 			<label for="famille">Choisissez une famille:</label>
 			<select id="famille">
@@ -27,6 +31,8 @@
 				<option value="">--Choisissez un anneau--</option>
 			</select>
 		</div>
+		
+		<h2>3 - Choix de l'&#233;cole</h2>
 		<div>
 			<label for="allow-other-clan">Autoriser une &#233;cole d'un autre clan:</label>
 			<input type="checkbox" id="allow-other-clan">
@@ -40,18 +46,18 @@
 		<div id="school-details"></div>
 	</div>
 	<div class="right">
-		<h1>R&#233;sum&#233; des choix</h1>
-		<p id="chosen-clan">Clan choisi : </p>
-		<p id="chosen-family">Famille choisie : </p>
-		<p id="chosen-school">&#201;cole choisie : </p>
-		<h2>Cons&#233;quences</h2>
-		<p id="ring-values">Valeurs des anneaux : </p>
-		<p >Comp&eacute;tences (+1) : <ul id="starting-skills"></ul></p>
-		<p id="status">Statut : </p>
-		<p id="glory">Gloire : </p>
-		<p id="honor">Honneur : </p>
+		<h1>R&#233;sum&#233;</h1>
+		<p>Clan : <span  id="chosen-clan"></span></p>
+		<p>Famille : <span  id="chosen-family"></span></p>
+		<p>&#201;cole : <span  id="chosen-school"></span></p>
+		<p>Valeurs des anneaux : <ul id="ring-values"></ul></p>
+		<p>Statut : <span  id="status"></span></p>
+		<p>Gloire : <span  id="glory"></span></p>
+		<p>Honneur : <span  id="honor"></span></p>
+		<p>Comp&eacute;tences (+1) : <ul id="starting-skills"></ul></p>
+		<p>Techniques de d&eacute;part : <ul id="starting-techniques"></ul></p>
+		<p>Equipement de d&eacute;part : <ul id="starting-outfit"></ul></p>
 		<p>Richesse : <span  id="wealth"></span></p>
-		<p >Techniques de d&eacute;part : <ul id="starting-techniques"></ul></p>
 		
 		<p style="color:red">TODO : ajout des choix 4 (un anneau) + 7/8 (gloire/honneur et/ou compétences en+) .</p>
 	</div>

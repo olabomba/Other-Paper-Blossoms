@@ -1,6 +1,7 @@
 let clansData;
 let schoolsData;
 let ringsData;
+let skillsData;
 
 let rings = {};
 let skills = {};
@@ -28,11 +29,94 @@ window.onload = function() {
             ringsData = data;
             populateBehavior();
         });
+        
+	fetch('data/json/skill_groups.json').then(response => response.json())
+        .then(data => {
+            skillsData = data;
+        });
 
     document.getElementById('allow-other-clan').onchange = function() {
         populateSchools(this.checked);
     };
+    
+    
+    const relationButtons = document.getElementsByName('relation');
+	for (let i = 0; i < relationButtons.length; i++) {
+		relationButtons[i].addEventListener('change', function() {
+			if (this !== null && this.checked) {
+				updateQuestion7(this.value);
+			}
+		});
+	}
+	const bushidoButtons = document.getElementsByName('bushido');
+	for (let i = 0; i < bushidoButtons.length; i++) {
+		bushidoButtons[i].addEventListener('change', function() {
+			if (this !== null && this.checked) {
+				updateQuestion8(this.value);
+			}
+		});
+	}
+
 };
+
+function buildSelectSkills(onchange) {
+	// Get the select element
+	let skillsList = '<select onchange="' + onchange + '"><option>--Choisissez une comp&eacute;tence--</option>';
+	
+    for (const group of skillsData) {
+		// Create an optgroup element for the group
+		skillsList += '<optgroup label="' + group.name + '">';
+
+		// Fill the optgroup with options for each skill
+		for (const skill of group.skills) {
+			skillsList += '<option value="' + skill + '">' + skill + '</option>';
+		}
+	}
+    skillsList += '</select>';
+	return skillsList;
+}
+
+function updateQuestion7(val) {
+	
+	const details = document.getElementById('relation-details');
+	if (val === 'positive') {
+		glory['relation'] = 5;
+		skills['relation'] = [];
+		details.innerHTML = '<p>Glory Increase: 5</p>';
+		displayChosenSkills();
+	} else {
+		glory['relation'] = 0;
+		details.innerHTML = 'Choisir une comp&eacutetence en rapport :<br />' + buildSelectSkills('updateQuestion7Skill(event)');
+	}
+    updateSummary('glory', addValues(glory));
+}
+
+function updateQuestion7Skill(e) {
+	const value = e.target.value;
+	if (e.target.selectedIndex !== 0) skills['relation'] = [value]; else skills['relation'] = [];
+    displayChosenSkills();
+}
+
+function updateQuestion8(val) {
+	
+	const details = document.getElementById('bushido-details');
+	if (val === 'positive') {
+		honor['bushido'] = 10;
+		skills['bushido'] = [];
+		details.innerHTML = '<p>Honor Increase: 10</p>';
+		displayChosenSkills();
+	} else {
+		honor['bushido'] = 0;
+		details.innerHTML = 'Choisir une comp&eacutetence en rapport :<br />' + buildSelectSkills('updateQuestion8Skill(event)');
+	}
+    updateSummary('honor', addValues(honor));
+}
+
+function updateQuestion8Skill(e) {
+	const value = e.target.value;
+	if (e.target.selectedIndex !== 0) skills['bushido'] = [value]; else skills['bushido'] = [];
+    displayChosenSkills();
+}
 
 function countOccurrences(obj, value) {
   var count = 0;
@@ -89,6 +173,7 @@ function populateClans() {
     });
 
     clanSelect.onchange = function() {
+		// TODO comme pour les questions 7/8 ignorer si on est sur l'index 0
         populateFamilies(this.value);
         displayClanDetails(this.value);
         

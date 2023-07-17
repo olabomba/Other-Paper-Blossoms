@@ -1,5 +1,6 @@
 let clansData;
 let schoolsData;
+let ringsData;
 
 let rings = {};
 let skills = {};
@@ -19,6 +20,13 @@ window.onload = function() {
         .then(response => response.json())
         .then(data => {
             schoolsData = data;
+        });
+        
+    fetch('data/json/rings.json')
+        .then(response => response.json())
+        .then(data => {
+            ringsData = data;
+            populateBehavior();
         });
 
     document.getElementById('allow-other-clan').onchange = function() {
@@ -62,6 +70,7 @@ function listValues(obj, excludeKey) {
 	});
 	return text;
 }
+
 function addValues(obj) {
 	let total = 0;
     Object.values(obj).forEach(function(val) {
@@ -69,6 +78,7 @@ function addValues(obj) {
 	});
 	return total;
 }
+
 function populateClans() {
     const clanSelect = document.getElementById('clan');
     clansData.forEach((clan, index) => {
@@ -88,6 +98,26 @@ function populateClans() {
     
         displayChosenSkills();
         updateSummary('chosen-clan', this.options[this.selectedIndex].text);
+    };
+}
+
+function populateBehavior() {
+    const ringsSelect = document.getElementById('behavior');
+    ringsData.forEach((ring, index) => {
+        const option = document.createElement('option');
+        option.value = ring.name;
+        option.innerText = ring.outstanding_quality;
+        ringsSelect.appendChild(option);
+    });
+
+    ringsSelect.onchange = function() {
+       
+        // behavior
+		const ring = ringsData[this.selectedIndex - 1].name;
+		rings['behavior'] = ring;
+		updateRingValues();
+		const details = document.getElementById('behavior-details');
+		details.innerHTML = '<p>Ring Increase: ' + ring + '</p>';
     };
 }
 
